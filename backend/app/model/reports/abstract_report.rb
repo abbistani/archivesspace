@@ -10,11 +10,11 @@ class AbstractReport
   attr_reader :job
 
   def initialize(params, job, db)
-    # sanity check, please. 
+    # sanity check, please.
     params = params.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
-    @format = params[:format] if params.has_key?(:format) && params[:format] != "" 
-    @params = params 
+    @format = params[:format] if params.has_key?(:format) && params[:format] != ""
+    @params = params
     @job = job
     @db = db
   end
@@ -41,6 +41,10 @@ class AbstractReport
 
   def template
     'generic_listing.erb'
+  end
+
+  def total_count
+    @total_count ||= self.query.count
   end
 
   def layout
